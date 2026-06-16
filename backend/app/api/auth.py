@@ -48,13 +48,13 @@ def register(
         )
 
     new_user = User(
-        name=user.name,
-        email=user.email,
-        password=hash_password(
-            user.password
-        ),
-        role="USER"
-    )
+    name=user.name,
+    email=user.email,
+    password=hash_password(
+        user.password
+    ),
+    role="ADMIN"
+)
 
     create_user(
         db,

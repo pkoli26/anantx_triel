@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
 from app.api.products import router as product_router
 from app.api.auth import router as auth_router
 from app.api.user import router as user_router
@@ -16,7 +16,19 @@ from app.models.cart import Cart
 app = FastAPI(
     title="AnantBuy API"
 )
+app.add_middleware(
+    CORSMiddleware,
 
+    allow_origins=[
+        "http://localhost:4000"
+    ],
+
+    allow_credentials=True,
+
+    allow_methods=["*"],
+
+    allow_headers=["*"],
+)   
 @app.on_event("startup")
 def startup():
     Base.metadata.create_all(bind=engine)

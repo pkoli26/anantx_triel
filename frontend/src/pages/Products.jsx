@@ -1,100 +1,342 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 
 function Products() {
 
-  const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState("");
+  const [products, setProducts] =
+    useState([]);
+
+  const [filteredProducts, setFilteredProducts] =
+    useState([]);
+
+  const [search, setSearch] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(true);
+
+  useEffect(() => {
+
+    fetchProducts();
+
+  }, []);
+
+  useEffect(() => {
+
+    const result =
+      products.filter((product) =>
+        product.name
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+      );
+
+    setFilteredProducts(result);
+
+  }, [search, products]);
+
+  const fetchProducts =
+    async () => {
+
+      try {
+
+        const res =
+          await api.get(
+            "/api/products/"
+          );
+
+        console.log("API DATA:", res.data);
+
+        setProducts(res.data);
+
+        setFilteredProducts(
+          res.data
+        );
+
+      } catch (err) {
+
+        console.error(err);
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
 
   return (
-    <div className="container">
 
-      <h1 className="page-title">
-        Products
-      </h1>
+    <div
+      style={{
+        minHeight: "100vh",
+        background:
+          "transparent",
+        padding: "40px"
+      }}
+    >
 
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-      />
+      {/* HEADER */}
 
-      <div className="product-grid">
+      <div
+        style={{
+          textAlign: "center",
+          marginBottom: "40px"
+        }}
+      >
 
-        {filtered.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            addToCart={addToCart}
-          />
-        ))}
+        <h1
+          style={{
+            color: "white",
+            fontSize: "42px",
+            marginBottom: "10px"
+          }}
+        >
+          Explore Products
+        </h1>
+
+        <p
+          style={{
+            color: "#94a3b8"
+          }}
+        >
+          Discover the latest gadgets,
+          fashion and accessories
+        </p>
 
       </div>
 
-    </div>
-  );
-}
+      {/* SEARCH */}
 
-function Register() {
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = async (e) => {
-
-    e.preventDefault();
-
-    try {
-
-      await api.post("/auth/register", {
-        email,
-        password
-      });
-
-      alert("Registration Successful");
-
-    } catch (err) {
-
-      alert("Registration Failed");
-    }
-  };
-
-  return (
-
-    <div className="max-w-md mx-auto mt-10">
-
-      <h2 className="text-2xl mb-5 font-bold">
-        Register
-      </h2>
-
-      <form onSubmit={handleSubmit}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "40px"
+        }}
+      >
 
         <input
-          className="border p-2 w-full mb-3"
-          placeholder="Email"
+          type="text"
+          placeholder="Search products..."
+          value={search}
           onChange={(e) =>
-            setEmail(e.target.value)
+            setSearch(
+              e.target.value
+            )
           }
+          style={{
+            width: "500px",
+            padding: "15px",
+            borderRadius: "12px",
+            border: "none",
+            background: "#1e293b",
+            color: "white",
+            fontSize: "16px"
+          }}
         />
 
-        <input
-          type="password"
-          className="border p-2 w-full mb-3"
-          placeholder="Password"
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
+      </div>
 
-        <button
-          className="bg-green-600 text-white w-full p-2"
+      {/* LOADING */}
+
+      {loading ? (
+
+        <h2
+          style={{
+            color: "white",
+            textAlign: "center"
+          }}
         >
-          Register
-        </button>
+          Loading Products...
+        </h2>
 
-      </form>
+      ) : (
+
+        <div
+          style={{
+            display: "grid",
+
+            gridTemplateColumns:
+              "repeat(auto-fill,minmax(300px,1fr))",
+
+            gap: "30px"
+          }}
+        >
+
+          {filteredProducts.map(
+            (product) => (
+
+              <div
+                key={product.id}
+                style={{
+
+                  background:
+                    "#0f172a",
+
+                  borderRadius:
+                    "18px",
+
+                  overflow:
+                    "hidden",
+
+                  border:
+                    "1px solid rgba(245,158,11,.15)",
+
+                  transition:
+                    "0.3s",
+
+                  boxShadow:
+                    "0 8px 25px rgba(0,0,0,.4)"
+                }}
+              >
+
+                {/* IMAGE */}
+
+
+                <img
+                  src={
+                    product.image_url ||
+                    "https://via.placeholder.com/400x300"
+                  }
+                  alt={product.name}
+                  style={{
+                    width: "100%",
+                    height: "220px",
+                    objectFit: "cover"
+                  }}
+                />
+
+                {/* CONTENT */}
+
+                <div
+                  style={{
+                    padding: "20px"
+                  }}
+                >
+
+                  <span
+                    style={{
+                      background: "#f59e0b",
+                      color: "white",
+                      padding: "5px 12px",
+                      borderRadius: "30px",
+                      fontSize: "12px"
+                    }}
+                  >
+                    {product.category}
+                  </span>
+
+                  <p
+                    style={{
+                      color: "#94a3b8",
+                      marginTop: "10px"
+                    }}
+                  >
+                    {product.brand}
+                  </p>
+
+                  <h2
+                    style={{
+                      color: "white",
+                      marginTop: "10px"
+                    }}
+                  >
+                    {product.name}
+                  </h2>
+
+                  <p
+                    style={{
+                      color:
+                        "#94a3b8",
+
+                      minHeight:
+                        "50px"
+                    }}
+                  >
+                    {product.description}
+                  </p>
+                  <h2
+                    style={{
+                      color: "#f59e0b"
+                    }}
+                  >
+                    ₹{product.price}
+                  </h2>
+
+                  <p
+                    style={{
+                      color: "#facc15",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    ⭐ {product.rating}
+                  </p>
+
+                  <p
+                    style={{
+                      color: "#cbd5e1"
+                    }}
+                  >
+                    Stock: {product.stock}
+                  </p>
+
+
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      marginTop: "20px"
+                    }}
+                  >
+
+                    <button
+                      style={{
+                        flex: 1,
+                        padding: "12px",
+                        border: "none",
+                        borderRadius: "10px",
+                        background:
+                          "#f59e0b",
+                        color: "white",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Add To Cart
+                    </button>
+
+                    <button
+                      style={{
+                        flex: 1,
+                        padding: "12px",
+                        borderRadius: "10px",
+                        border:
+                          "1px solid #f59e0b",
+                        background:
+                          "transparent",
+                        color:
+                          "#f59e0b",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Buy Now
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            )
+          )}
+
+        </div>
+
+      )}
 
     </div>
+
   );
 }
 
-export default Register;
+export default Products;

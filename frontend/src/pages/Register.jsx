@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import "../Auth.css";
 
 function Register() {
+
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     name: "",
@@ -21,17 +24,13 @@ function Register() {
         form
       );
 
-      alert("Registration Successful");
+      alert(
+        "Registration Successful. Please Login."
+      );
 
-      setForm({
-        name: "",
-        email: "",
-        password: ""
-      });
+      navigate("/login");
 
     } catch (err) {
-
-      console.error(err);
 
       alert(
         err?.response?.data?.detail ||
@@ -42,11 +41,51 @@ function Register() {
 
   return (
 
-    <div className="auth-container">
+    <div className="auth-page">
+
+      {/* LEFT SECTION */}
+
+      <div className="auth-left">
+
+        <h1>
+          Welcome to AnantBuy
+        </h1>
+
+        <p>
+          Your one-stop destination for
+          Electronics, Fashion, Accessories
+          and much more.
+        </p>
+
+        <div className="features">
+
+          <div>
+            ✓ Secure Authentication
+          </div>
+
+          <div>
+            ✓ Fast Shopping Experience
+          </div>
+
+          <div>
+            ✓ Modern React + FastAPI Platform
+          </div>
+
+          <div>
+            ✓ Built by AnantX Team
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* RIGHT SECTION */}
 
       <div className="auth-card">
 
-        <h2>Register</h2>
+        <h2>
+          Create Account
+        </h2>
 
         <form onSubmit={handleSubmit}>
 
@@ -65,7 +104,7 @@ function Register() {
 
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email Address"
             value={form.email}
             onChange={(e) =>
               setForm({
@@ -90,15 +129,35 @@ function Register() {
           />
 
           <button type="submit">
-            Register
+            Create Account
           </button>
 
         </form>
 
+        <p
+          style={{
+            textAlign: "center",
+            marginTop: "20px"
+          }}
+        >
+          Already have an account?{" "}
+
+          <Link
+            to="/login"
+            style={{
+              color: "#f59e0b",
+              fontWeight: "600",
+              textDecoration: "none"
+            }}
+          >
+            Login
+          </Link>
+
+        </p>
+
       </div>
 
     </div>
-
   );
 }
 

@@ -5,10 +5,18 @@ import {
   Button,
   Box,
   TextField,
-  IconButton
+  IconButton,
+  Badge
 } from "@mui/material";
 
+import {
+  Link,
+  useNavigate
+} from "react-router-dom";
+
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import SearchIcon from "@mui/icons-material/Search";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 
@@ -17,40 +25,85 @@ function Navbar({
   setDarkMode
 }) {
 
+  const navigate = useNavigate();
+
+  const token =
+    localStorage.getItem("token");
+
+  const handleLogout = () => {
+
+    localStorage.removeItem(
+      "token"
+    );  
+
+    navigate("/login");
+
+    window.location.reload();
+  };
+
   return (
 
     <AppBar
-      position="sticky"
-      sx={{
-        background: darkMode
-          ? "#111827"
-          : "#ffffff",
+  position="sticky"
+  sx={{
 
-        color: darkMode
-          ? "#ffffff"
-          : "#111827",
-        boxShadow:
-          "0 4px 20px rgba(0,0,0,0.15)"
-      }}
-    >
+    background:
+      "rgba(2,6,23,0.95)",
+
+    backdropFilter:
+      "blur(15px)",
+
+    borderBottom:
+      "1px solid rgba(245,158,11,0.15)",
+
+    color: "#ffffff",
+
+    boxShadow:
+      "0 8px 30px rgba(0,0,0,0.35)"
+  }}
+>
 
       <Toolbar>
 
-        <Typography
-          variant="h5"
+        {/* LOGO */}
+
+        <Box
+          component={Link}
+          to="/"
           sx={{
-            fontWeight: 700,
-            letterSpacing: 1,
-            cursor: "pointer"
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+            color: "inherit"
           }}
         >
-          AnantBuy
-        </Typography>
+
+          <StorefrontIcon
+            sx={{
+              color: "#f59e0b",
+              mr: 1
+            }}
+          />
+
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 800,
+              color: "#f59e0b"
+            }}
+          >
+            ANANTBUY
+          </Typography>
+
+        </Box>
+
+        {/* SEARCH */}
 
         <Box
           sx={{
             flexGrow: 1,
-            mx: 4
+            mx: 4,
+            position: "relative"
           }}
         >
 
@@ -58,89 +111,154 @@ function Navbar({
             size="small"
             fullWidth
             placeholder="Search products..."
-            variant="outlined"
             sx={{
-              background: "white",
-              borderRadius: 2,
+              background:
+                darkMode
+                  ? "#1e293b"
+                  : "#f8fafc",
+
+              borderRadius: 3,
 
               "& .MuiOutlinedInput-root": {
-                borderRadius: 2
+                borderRadius: 3
               }
+            }}
+          />
+
+          <SearchIcon
+            sx={{
+              position: "absolute",
+              right: 12,
+              top: 9,
+              color: "gray"
             }}
           />
 
         </Box>
 
+        {/* MENU */}
+
         <Button
+          component={Link}
+          to="/"
           color="inherit"
-          sx={{
-            mx: 1,
-            fontWeight: 600
-          }}
+        >
+          Home
+        </Button>
+
+        <Button
+          component={Link}
+          to="/products"
+          color="inherit"
         >
           Products
         </Button>
 
-        <Button
+        {/* CART */}
+
+        <IconButton
+          component={Link}
+          to="/cart"
           color="inherit"
-          sx={{
-            mx: 1,
-            fontWeight: 600
-          }}
         >
-          Cart
-        </Button>
 
-        <Button
-          variant="contained"
-          sx={{
-            mx: 1,
-            background: "#f59e0b",
+          <Badge
+            badgeContent={0}
+            color="error"
+          >
+            <ShoppingCartIcon />
+          </Badge>
 
-            "&:hover": {
-              background: "#d97706"
-            }
-          }}
-        >
-          Login
-        </Button>
+        </IconButton>
 
-        <Button
-          variant="outlined"
-          sx={{
-            mx: 1,
-            color: "white",
-            borderColor: "white",
+        {/* LOGIN STATE */}
 
-            "&:hover": {
-              borderColor: "#f59e0b",
-              color: "#f59e0b"
-            }
-          }}
-        >
-          Register
-        </Button>
+        {
+          !token
+            ? (
+              <>
+                <Button
+                  component={Link}
+                  to="/login"
+                  variant="contained"
+                  sx={{
+                    ml: 2,
+                    background:
+                      "#f59e0b"
+                  }}
+                >
+                  Login
+                </Button>
+
+                <Button
+                  component={Link}
+                  to="/register"
+                  variant="outlined"
+                  sx={{
+                    ml: 1,
+                    borderColor:
+                      "#f59e0b",
+                    color:
+                      "#f59e0b"
+                  }}
+                >
+                  Register
+                </Button>
+              </>
+            )
+            : (
+              <>
+                <Typography
+                  sx={{
+                    mx: 2,
+                    fontWeight: 600
+                  }}
+                >
+                  Welcome 👋
+                </Typography>
+
+                <Button
+                  color="error"
+                  variant="outlined"
+                  onClick={
+                    handleLogout
+                  }
+                >
+                  Logout
+                </Button>
+              </>
+            )
+        }
+
+        {/* DARK MODE */}
 
         <IconButton
           color="inherit"
           onClick={() =>
-            setDarkMode(!darkMode)
+            setDarkMode(
+              !darkMode
+            )
           }
           sx={{
             ml: 1
           }}
         >
+
           {
             darkMode
-              ? <LightModeIcon />
-              : <DarkModeIcon />
+              ? (
+                <LightModeIcon />
+              )
+              : (
+                <DarkModeIcon />
+              )
           }
+
         </IconButton>
 
       </Toolbar>
 
     </AppBar>
-
   );
 }
 

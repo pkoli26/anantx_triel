@@ -2,44 +2,40 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
-import Products from "./pages/Products";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Products from "./pages/Products";
 import Cart from "./pages/Cart";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
-  const [darkMode, setDarkMode] = useState(false);
+  const darkMode = true;
 
   return (
 
     <div
-      className={
-        darkMode
-          ? "dark-theme"
-          : "light-theme"
-      }
+      style={{
+        minHeight: "100vh",
+        background:
+          "linear-gradient(180deg,#020617,#0f172a,#111827)",
+        color: "white"
+      }}
     >
 
       <BrowserRouter>
 
-        <Navbar
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
-        />
+        <Navbar/>
 
         <Routes>
 
           <Route
             path="/"
             element={<Home />}
-          />
-
-          <Route
-            path="/products"
-            element={<Products />}
           />
 
           <Route
@@ -53,18 +49,26 @@ function App() {
           />
 
           <Route
-            path="/cart"
-            element={<Cart />}
-          />
-          <Route
-            path="/"
+            path="/products"
             element={
-              <Home
-                darkMode={darkMode}
-              />
+              <ProtectedRoute>
+                <Products />
+              </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+
         </Routes>
+
+        <Footer />
 
       </BrowserRouter>
 

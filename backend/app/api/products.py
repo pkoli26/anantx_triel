@@ -28,12 +28,15 @@ def add_product(
 ):
 
     new_product = Product(
-        name=product.name,
-        description=product.description,
-        price=product.price,
-        stock=product.stock,
-        category=product.category
-    )
+    name=product.name,
+    description=product.description,
+    price=product.price,
+    stock=product.stock,
+    category=product.category,
+    brand=product.brand,
+    image_url=product.image_url,
+    rating=product.rating
+)
 
     return create_product(
         db,

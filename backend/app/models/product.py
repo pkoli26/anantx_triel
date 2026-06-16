@@ -25,6 +25,23 @@ class Product(Base):
         String
     )
 
+    category = Column(
+        String
+    )
+
+    brand = Column(
+        String
+    )
+
+    image_url = Column(
+        String
+    )
+
+    rating = Column(
+        Float,
+        default=0
+    )
+
     price = Column(
         Float,
         nullable=False
@@ -33,8 +50,4 @@ class Product(Base):
     stock = Column(
         Integer,
         default=0
-    )
-
-    category = Column(
-        String
     )

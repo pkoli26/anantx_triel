@@ -7,6 +7,9 @@ class ProductCreate(BaseModel):
     price: float
     stock: int
     category: str
+    brand: str
+    image_url: str
+    rating: float
 
 
 class ProductResponse(ProductCreate):

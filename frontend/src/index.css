@@ -1,178 +1,396 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* ======================
-   BODY
-====================== */
+html,
+body,
+#root{
+  min-height:100vh;
+}
 
 body {
+  margin: 0;
+  padding: 0;
   font-family: 'Poppins', sans-serif;
+  background: #020617;
+  color: white;
+  overflow-x: hidden;
 }
 
-/* ======================
+/* =========================
    THEMES
-====================== */
+========================= */
 
 .light-theme {
-  background: #f8fafc;
-  color: #111827;
+  background: #020617;
+  color: white;
   min-height: 100vh;
-  transition: all 0.3s ease;
 }
 
 .dark-theme {
-  background: #111827;
+  background: #020617;
   color: white;
   min-height: 100vh;
-  transition: all 0.3s ease;
 }
 
-/* ======================
+/* =========================
    AUTH
-====================== */
+========================= */
 
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 85vh;
+.auth-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:80vh;
+  padding:20px;
 }
 
-.auth-card {
-  width: 400px;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.1);
+.auth-card{
+  width:420px;
+  background:#0f172a;
+  padding:35px;
+  border-radius:20px;
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.4);
+
+  border:1px solid #1e293b;
 }
 
-.auth-card h2 {
-  margin-bottom: 20px;
-  text-align: center;
+.auth-card h2{
+  text-align:center;
+  margin-bottom:25px;
+  color:#f59e0b;
 }
 
-.auth-card input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.auth-card input{
+  width:100%;
+  padding:14px;
+  margin-bottom:15px;
+
+  border:none;
+
+  background:#1e293b;
+
+  color:white;
+
+  border-radius:10px;
 }
 
-.auth-card button {
-  width: 100%;
-  padding: 12px;
-  background: #f59e0b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+.auth-card input:focus{
+  outline:none;
+  border:1px solid #f59e0b;
 }
 
-/* ======================
+.auth-card button{
+  width:100%;
+  padding:14px;
+
+  background:#f59e0b;
+
+  color:white;
+
+  border:none;
+
+  border-radius:10px;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+  transition:0.3s;
+}
+
+.auth-card button:hover{
+  background:#d97706;
+}
+
+/* =========================
    HERO
-====================== */
+========================= */
 
-.hero {
-  min-height: 450px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s ease;
-  text-align: center;
-  padding: 40px;
-}
+.hero{
+  min-height:500px;
 
-.light-theme .hero {
-  background: linear-gradient(
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  background:
+  linear-gradient(
     135deg,
-    #f8fafc,
-    #e2e8f0
+    #020617,
+    #0f172a,
+    #1e293b
   );
-  color: #111827;
 }
 
-.dark-theme .hero {
+.hero-content h1{
+  font-size:4rem;
+  margin-bottom:20px;
+  font-weight:800;
+}
+
+.hero-content p{
+  font-size:1.2rem;
+  color:#cbd5e1;
+  margin-bottom:25px;
+}
+
+.hero-content button{
+  padding:14px 30px;
+
+  border:none;
+
+  border-radius:10px;
+
+  background:#f59e0b;
+
+  color:white;
+
+  cursor:pointer;
+
+  font-weight:600;
+}
+
+/* =========================
+   PRODUCT GRID
+========================= */
+
+.product-grid{
+  max-width:1400px;
+
+  margin:auto;
+
+  padding:50px 20px;
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(
+    auto-fit,
+    minmax(280px,1fr)
+  );
+
+  gap:25px;
+}
+
+.product-card{
+
+  background:#0f172a;
+
+  border-radius:18px;
+
+  overflow:hidden;
+
+  border:1px solid #1e293b;
+
+  transition:0.3s;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,.25);
+}
+
+.product-card:hover{
+
+  transform:
+  translateY(-8px);
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,.45);
+}
+
+.product-card img{
+
+  width:100%;
+
+  height:220px;
+
+  object-fit:cover;
+}
+
+.product-card-content{
+  padding:18px;
+}
+
+.product-card h3{
+  margin-bottom:10px;
+}
+
+.product-card p{
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+.product-price{
+  color:#f59e0b;
+  font-size:22px;
+  font-weight:700;
+  margin-top:10px;
+}
+
+.product-card button{
+
+  width:100%;
+
+  padding:12px;
+
+  margin-top:15px;
+
+  background:#f59e0b;
+
+  color:white;
+
+  border:none;
+
+  border-radius:10px;
+
+  cursor:pointer;
+}
+
+/* =========================
+   PAGE TITLES
+========================= */
+
+.page-title{
+
+  text-align:center;
+
+  margin-top:40px;
+
+  font-size:2.5rem;
+
+  color:#f59e0b;
+}
+
+/* =========================
+   LINKS
+========================= */
+
+a{
+  text-decoration:none;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:#020617;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#334155;
+  border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:#475569;
+}
+
+.auth-page{
+  min-height:80vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:80px;
+  padding:40px;
+}
+
+.auth-left{
+  max-width:500px;
+}
+
+.auth-left h1{
+  font-size:3rem;
+  color:#f59e0b;
+  margin-bottom:20px;
+}
+
+.auth-left p{
+  font-size:1.1rem;
+  color:#cbd5e1;
+  margin-bottom:30px;
+  line-height:1.7;
+}
+
+.features{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  font-size:1rem;
+  color:white;
+}
+
+@media(max-width:900px){
+
+  .auth-page{
+    flex-direction:column;
+    gap:30px;
+  }
+
+  .auth-left{
+    text-align:center;
+  }
+}
+
+@keyframes fadeUp {
+
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+#root {
+  min-height: 100vh;
   background: linear-gradient(
-    135deg,
-    #111827,
-    #1f2937
+    180deg,
+    #020617,
+    #0f172a,
+    #111827
   );
+}
+html,
+body,
+#root {
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #020617,
+      #0f172a,
+      #111827
+    ) !important;
+
   color: white;
+
+  overflow-x: hidden;
 }
 
-/* ======================
-   PRODUCTS
-====================== */
+body {
 
-.product-grid {
-  max-width: 1200px;
-  margin: 40px auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
+  margin: 0;
 
-.product-card {
-  width: 280px;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,.1);
-  transition: 0.3s;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-}
-
-.product-card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-}
-
-.product-card h3,
-.product-card p,
-.product-card h4 {
-  padding: 10px;
-}
-
-/* ======================
-   DARK MODE CARDS
-====================== */
-
-.dark-theme .product-card,
-.dark-theme .auth-card,
-.dark-theme .cart-card {
-  background: #1f2937;
-  color: white;
-}
-
-.dark-theme input {
-  background: #374151;
-  color: white;
-  border: 1px solid #4b5563;
-}
-
-/* ======================
-   BUTTONS
-====================== */
-
-.theme-btn {
-  margin-left: 15px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: white;
-  color: #111827;
-  font-weight: 600;
+  font-family:
+    "Poppins",
+    sans-serif;
 }
