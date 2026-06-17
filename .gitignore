@@ -19,3 +19,12 @@ dist/
 
 # Database
 *.db
+
+
+
+*.pem
+terraform.tfvars
+terraform.tfstate*
+.env
+.DS_Store
+*.tfvars.json

@@ -1,0 +1,64 @@
+- name: Configure EC2 app host and deploy AnantBuy
+  hosts: aws
+  become: true
+  vars:
+    app_path: /home/ec2-user/anantx_triel
+    github_repo: https://github.com/pkoli26/anantx_triel.git
+    backend_env:
+      SECRET_KEY: "replace_with_a_secure_secret"
+      ALGORITHM: "HS256"
+      ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+    docker_compose_url: "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64"
+
+  tasks:
+    - name: Install required packages
+      yum:
+        name:
+          - git
+          - docker
+        state: present
+
+    - name: Ensure Docker service is enabled and started
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Install legacy docker-compose binary
+      get_url:
+        url: "{{ docker_compose_url }}"
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+
+    - name: Ensure application directory exists
+      file:
+        path: "{{ app_path }}"
+        state: directory
+        owner: ec2-user
+        group: ec2-user
+        mode: '0755'
+
+    - name: Clone or update the repository
+      git:
+        repo: "{{ github_repo }}"
+        dest: "{{ app_path }}"
+        version: main
+        update: yes
+        accept_hostkey: yes
+      become_user: ec2-user
+
+    - name: Create backend .env file
+      copy:
+        dest: "{{ app_path }}/backend/.env"
+        content: |
+          SECRET_KEY={{ backend_env.SECRET_KEY }}
+          ALGORITHM={{ backend_env.ALGORITHM }}
+          ACCESS_TOKEN_EXPIRE_MINUTES={{ backend_env.ACCESS_TOKEN_EXPIRE_MINUTES }}
+        owner: ec2-user
+        group: ec2-user
+        mode: '0600'
+
+    - name: Build and start Docker containers
+      command: docker-compose up -d
+      args:
+        chdir: "{{ app_path }}"

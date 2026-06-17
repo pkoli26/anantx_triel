@@ -1,0 +1,43 @@
+# Copy this file to terraform.tfvars and fill in your values
+# cp terraform.tfvars.example terraform.tfvars
+
+# AWS region where the instance will be created
+aws_region = "ap-south-1"
+
+# EC2 instance type
+instance_type = "t3.micro"
+
+# Name of the SSH key pair in AWS
+# Make sure this key pair already exists in AWS
+key_name = "anant"
+
+# Path to your local public SSH key file (.pub)
+# Windows: "C:\\Users\\youruser\\.ssh\\id_rsa.pub"
+# Linux/Ubuntu: "/home/youruser/.ssh/id_rsa.pub"
+public_key_path = "/path/to/your/.ssh/id_rsa.pub"
+
+# Optional: specific AMI ID to use
+# If empty, will use latest Amazon Linux 2023 AMI
+# Get AMI IDs from AWS Console or AWS CLI
+ami_id = "ami-0e38835daf6b8a2b9"
+
+# Whether Terraform should create/import the SSH key pair
+# Set to false if the key_name already exists in AWS
+create_key_pair = false
+
+# Name prefix for AWS resources (security group, instance, etc)
+name_prefix = "anantx"
+
+# GitHub repository URL (for later use with Ansible/provisioning)
+github_repo = "https://github.com/pkoli26/anantx_triel.git"
+
+
+
+
+
+
+
+#cd infra/terraform
+#cp terraform.tfvars.example terraform.tfvars
+# Edit terraform.tfvars with their values
+#terraform apply -auto-approve
